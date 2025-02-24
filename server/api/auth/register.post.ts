@@ -39,9 +39,10 @@ export default defineEventHandler(async(event) => {
 
   }
 
-  return sendRedirect(event, '/'); // redirect to the specific page
+  return transformedUser;
+  // return sendRedirect(event, '/'); - redirect to the specific page
 
-  // setResponseStatus(event, 20); error handling
+  // setResponseStatus(event, 20); - error handling
 
   // return sanitizeUser(user); - return the user object
 

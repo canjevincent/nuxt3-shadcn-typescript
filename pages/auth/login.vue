@@ -26,7 +26,7 @@
 <template>
   <div class="flex flex-col justify-center items-center min-h-screen">
     <div class="w-full max-w-md">
-      <form @submit="onSubmit" action="">
+      <form @submit.prevent="onSubmit" action="">
         
         <Card class="">
 
@@ -63,7 +63,7 @@
           <CardFooter class="flex flex-col space-y-2">
 
             <Button class="w-full" type="submit">
-              Register
+              Login
             </Button>
 
             <p>

@@ -37,7 +37,7 @@
           <CardHeader>
 
             <CardTitle class="text-2xl">
-              Login
+              Register
             </CardTitle>
 
             <CardDescription>
