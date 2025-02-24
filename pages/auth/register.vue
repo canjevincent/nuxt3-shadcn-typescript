@@ -10,12 +10,27 @@
     email:'',
     password:'',
   })
+
+  const onSubmit = async () => {
+    try {
+      await $fetch('/api/auth/register', {
+        method: 'POST',
+        body: form.value
+      });
+
+      navigateTo('/');
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 </script>
 
 <template>
   <div class="flex flex-col justify-center items-center min-h-screen">
     <div class="w-full max-w-md">
-      <form action="">
+      <form @submit.prevent="onSubmit" action="">
         
         <Card class="">
 

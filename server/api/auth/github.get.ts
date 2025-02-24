@@ -8,7 +8,7 @@ export default defineOAuthGitHubEventHandler({
   async onSuccess(event, { user }) {
 
     // find current user
-    let currentUser = db.user.findUnique({
+    let currentUser = await db.user.findUnique({
       where: {
         email: user.email
       }
