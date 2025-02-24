@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@nuxt/icon',
     '@nuxt/image',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    '@prisma/nuxt'
   ],
   shadcn: {
     /**
