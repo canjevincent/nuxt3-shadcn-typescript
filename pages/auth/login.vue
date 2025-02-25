@@ -9,16 +9,31 @@
     password:'',
   })
 
+  const { toggleLoading, showMessage, showError, isLoading } = useStore();
+  
   const onSubmit = async () => {
     try { 
+
+      toggleLoading(true);
       await $fetch('/api/auth/login', {
         method: 'POST',
         body: form.value
       });
 
+      showMessage({
+        title: 'Welcome Back'
+      });
+
+      // fix navigation
       navigateTo('/')
+      
     } catch (error) {
-      console.log(error)
+      
+      const err = handleError(error);
+      showError(err);
+
+    } finally {
+      toggleLoading(false);
     }
   }
 </script>
@@ -33,7 +48,7 @@
           <CardHeader>
 
             <CardTitle class="text-2xl">
-              Login
+              Login {{ isLoading }}
             </CardTitle>
 
             <CardDescription>
@@ -62,7 +77,7 @@
           
           <CardFooter class="flex flex-col space-y-2">
 
-            <Button class="w-full" type="submit">
+            <Button :disabled="isLoading" class="w-full" type="submit">
               Login
             </Button>
 
