@@ -4,19 +4,27 @@ import type { APIError } from '~/types';
 interface State {
   isLoading: boolean
   appError: APIError | null
+  isAlertModalVisible: boolean
 }
 
+// reactive<>, It typically represents a wrapper around a value that makes it reactive, meaning changes 
+// to the value are automatically propagated to dependent parts of the system.
 const state = reactive<State>({
   isLoading: false,
   appError: null,
+  isAlertModalVisible: false
 });
 
 export default () => {
-  const { isLoading, appError } = toRefs(state);
+  const { isLoading, appError, isAlertModalVisible } = toRefs(state);
   const { toast } = useToast();
 
   const toggleLoading = (v: boolean) => {
     state.isLoading = v;
+  }
+
+  const toggleAlertModal = (v: boolean) => {
+    state.isAlertModalVisible = v;
   }
 
   const toggleError = (error: null | APIError) => {
@@ -49,6 +57,8 @@ export default () => {
     showError,
     showMessage,
     toggleLoading,
-    toggleError
+    toggleError,
+    toggleAlertModal,
+    isAlertModalVisible
   }
 }

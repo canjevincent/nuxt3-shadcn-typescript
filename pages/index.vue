@@ -20,6 +20,8 @@
   <NuxtLink to="/auth/register">Register</NuxtLink>
   <NuxtLink to="/admin">Admin</NuxtLink>
   <NuxtLink to="/admin/categories">Categories</NuxtLink>
+  <NuxtLink to="/admin/colors">Colors</NuxtLink>
   <button @click="logout">Logout</button>
 </template>
 
+ 

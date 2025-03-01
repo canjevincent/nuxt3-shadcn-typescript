@@ -5,32 +5,33 @@
 
   const { isLoading, showMessage, showError, toggleLoading } = useStore();
 
-  const title = ref('Edit Category');
-  const description = ref('Edit Category.');
-  const toastMessage = ref('Category Updated');
+  const title = ref('Edit Color');
+  const description = ref('Edit Color.');
+  const toastMessage = ref('Color Updated');
   const action = ref('Save Changes');
   const isEditing = ref(true);
 
-  // Mutation directed to folder : Server / Api / Admin / Categories / [categoryId]
-  const route = useRoute(); // -> get value from the parameter [categoryId] by using ${(route.params as RouteParams).categoryId}
-  const { data: currentCategory } = await useFetch(`/api/admin/categories/${(route.params as RouteParams).categoryId}`); // -> index.get.ts
+  // Mutation directed to folder : Server / Api / Admin / Colors / [colorId]
+  const route = useRoute(); // -> get value from the parameter [colorId] by using ${(route.params as RouteParams).colorId}
+  const { data: currentColor } = await useFetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`); // -> index.get.ts
 
   watchEffect(() => {
-    if (!currentCategory.value) {
-      title.value = 'Create Category';
-      description.value = 'Add a new category.';
-      toastMessage.value = 'Category Added';
-      action.value = 'Create Category';
+    if (!currentColor.value) {
+      title.value = 'Create Color';
+      description.value = 'Add a new Color.';
+      toastMessage.value = 'Color Added';
+      action.value = 'Create Color';
       isEditing.value = false;
     }
   });
 
-  const formSchema = toTypedSchema(categorySchema);
+  const formSchema = toTypedSchema(colorSchema);
 
   const form = useForm({
     validationSchema: formSchema,
-    initialValues: currentCategory.value || {
-      name: ''
+    initialValues: currentColor.value || {
+      name: '',
+      value: '#000000'
     }
   });
 
@@ -39,18 +40,18 @@
       toggleLoading(true);
 
       if (isEditing.value) {
-        console.log('Edit Category', values);
+        console.log('Edit Color', values);
 
-        await $fetch(`/api/admin/categories/${(route.params as RouteParams).categoryId}`, {
+        await $fetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`, {
           method: 'PATCH',
           body: values
         });
         
       } else {
-        console.log('Add Category', values);
+        console.log('Add Color', values);
         
-        // Mutation directed to folder : Server / Api / Admin / Categories 
-        const data = await $fetch('/api/admin/categories/', {
+        // Mutation directed to folder : Server / Api / Admin / Colors 
+        const data = await $fetch('/api/admin/colors/', {
           method: 'POST', // -> index.post.ts
           body: values
         });
@@ -61,7 +62,7 @@
         title: toastMessage.value
       });
 
-      await navigateTo('/admin/categories');
+      await navigateTo('/admin/colors');
 
     } catch (error) {
       
@@ -75,19 +76,19 @@
     }
   })
 
-  const deleteCategory = async() => {
+  const deleteColor = async() => {
     try {
       toggleLoading(true);
 
-      const data = await $fetch(`/api/admin/categories/${(route.params as RouteParams).categoryId}`, {
+      const data = await $fetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`, {
         method: 'DELETE',
       });
 
       showMessage({
-        title: 'Delete Category'
+        title: 'Delete Color'
       });
 
-      await navigateTo('/admin/categories');
+      await navigateTo('/admin/colors');
 
     } catch (error) {
       
@@ -121,7 +122,20 @@
             <Formlabel>Name</Formlabel>
             
             <FormControl>
-              <Input placeholder="Category Name" v-bind="componentField" :disabled="isLoading" />
+              <Input placeholder="Color Name" v-bind="componentField" :disabled="isLoading" />
+            </FormControl>
+            
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="value">
+          <FormItem>
+            <Formlabel>Value</Formlabel>
+            
+            <FormControl>
+              <Input type="color" placeholder="#000000" v-bind="componentField" :disabled="isLoading" />
             </FormControl>
             
             <FormDescription />
@@ -136,7 +150,7 @@
   </div>
   <AlertModal 
     v-if="isAlertModalVisible" 
-    @on-confirm="deleteCategory" 
+    @on-confirm="deleteColor" 
     :is-open="isAlertModalVisible" 
     @on-close="isAlertModalVisible = !isAlertModalVisible">
   </AlertModal>
