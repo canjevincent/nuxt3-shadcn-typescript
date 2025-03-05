@@ -5,6 +5,7 @@
 
   const { isLoading, showMessage, showError, toggleLoading } = useStore();
 
+  const isAlertModalVisible = ref(false);
   const title = ref('Edit Category');
   const description = ref('Edit Category.');
   const toastMessage = ref('Category Updated');

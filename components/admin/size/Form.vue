@@ -6,33 +6,33 @@
   const { isLoading, showMessage, showError, toggleLoading } = useStore();
 
   const isAlertModalVisible = ref(false);
-  const title = ref('Edit Color');
-  const description = ref('Edit Color.');
-  const toastMessage = ref('Color Updated');
+  const title = ref('Edit Size');
+  const description = ref('Edit Size.');
+  const toastMessage = ref('Size Updated');
   const action = ref('Save Changes');
   const isEditing = ref(true);
 
-  // Mutation directed to folder : Server / Api / Admin / Colors / [colorId]
-  const route = useRoute(); // -> get value from the parameter [colorId] by using ${(route.params as RouteParams).colorId}
-  const { data: currentColor } = await useFetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`); // -> index.get.ts
+  // Mutation directed to folder : Server / Api / Admin / Sizes / [sizeId]
+  const route = useRoute(); // -> get value from the parameter [sizeId] by using ${(route.params as RouteParams).sizeId}
+  const { data: currentSize } = await useFetch(`/api/admin/sizes/${(route.params as RouteParams).sizeId}`); // -> index.get.ts
 
   watchEffect(() => {
-    if (!currentColor.value) {
-      title.value = 'Create Color';
-      description.value = 'Add a new Color.';
-      toastMessage.value = 'Color Added';
-      action.value = 'Create Color';
+    if (!currentSize.value) {
+      title.value = 'Create Size';
+      description.value = 'Add a new Size.';
+      toastMessage.value = 'Size Added';
+      action.value = 'Create Size';
       isEditing.value = false;
     }
   });
 
-  const formSchema = toTypedSchema(colorSchema);
+  const formSchema = toTypedSchema(sizeSchema);
 
   const form = useForm({
     validationSchema: formSchema,
-    initialValues: currentColor.value || {
+    initialValues: currentSize.value || {
       name: '',
-      value: '#000000'
+      value:'',
     }
   });
 
@@ -41,18 +41,18 @@
       toggleLoading(true);
 
       if (isEditing.value) {
-        console.log('Edit Color', values);
+        console.log('Edit Size', values);
 
-        await $fetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`, {
+        await $fetch(`/api/admin/sizes/${(route.params as RouteParams).sizeId}`, {
           method: 'PATCH',
           body: values
         });
         
       } else {
-        console.log('Add Color', values);
+        console.log('Add Size', values);
         
-        // Mutation directed to folder : Server / Api / Admin / Colors 
-        const data = await $fetch('/api/admin/colors/', {
+        // Mutation directed to folder : Server / Api / Admin / Sizes 
+        const data = await $fetch('/api/admin/sizes/', {
           method: 'POST', // -> index.post.ts
           body: values
         });
@@ -63,7 +63,7 @@
         title: toastMessage.value
       });
 
-      await navigateTo('/admin/colors');
+      await navigateTo('/admin/sizes');
 
     } catch (error) {
       
@@ -77,19 +77,19 @@
     }
   })
 
-  const deleteColor = async() => {
+  const deleteSize = async() => {
     try {
       toggleLoading(true);
 
-      const data = await $fetch(`/api/admin/colors/${(route.params as RouteParams).colorId}`, {
+      const data = await $fetch(`/api/admin/sizes/${(route.params as RouteParams).sizeId}`, {
         method: 'DELETE',
       });
 
       showMessage({
-        title: 'Delete Color'
+        title: 'Delete Size'
       });
 
-      await navigateTo('/admin/colors');
+      await navigateTo('/admin/sizes');
 
     } catch (error) {
       
@@ -123,7 +123,7 @@
             <Formlabel>Name</Formlabel>
             
             <FormControl>
-              <Input placeholder="Color Name" v-bind="componentField" :disabled="isLoading" />
+              <Input placeholder="Size Name" v-bind="componentField" :disabled="isLoading" />
             </FormControl>
             
             <FormDescription />
@@ -133,10 +133,10 @@
 
         <FormField v-slot="{ componentField }" name="value">
           <FormItem>
-            <Formlabel>Value</Formlabel>
+            <Formlabel>Size Code</Formlabel>
             
             <FormControl>
-              <Input type="color" placeholder="#000000" v-bind="componentField" :disabled="isLoading" />
+              <Input placeholder="xl" v-bind="componentField" :disabled="isLoading" />
             </FormControl>
             
             <FormDescription />
@@ -151,7 +151,7 @@
   </div>
   <AlertModal 
     v-if="isAlertModalVisible" 
-    @on-confirm="deleteColor" 
+    @on-confirm="deleteSize" 
     :is-open="isAlertModalVisible" 
     @on-close="isAlertModalVisible = !isAlertModalVisible">
   </AlertModal>

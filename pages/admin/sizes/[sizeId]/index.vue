@@ -7,8 +7,7 @@
 <template>
   <div class="flex-col">
     <div class="flex-1 p-8 pt-6 space-y-4">
-      <AdminColorClient></AdminColorClient>
+      <AdminSizeForm></AdminSizeForm>
     </div>
   </div>
 </template>
-
