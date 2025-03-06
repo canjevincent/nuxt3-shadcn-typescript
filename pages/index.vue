@@ -15,6 +15,7 @@
       <ProductList :items="products || []" title="Featured Products" :is-loading="status === 'pending'" />
     </div>
   </div>
+  <ProductModal />
 </template>
 
  

@@ -11,7 +11,7 @@
 
     <div class="flex justify-between items-center px-4 h-16">
       <NuxtLink to="/">
-        <img src="/logo.svg" alt="logo" class="cursor-point h-[30px]">
+        <img src="/gen-logo.png" alt="logo" class="cursor-point h-[30px]">
       </NuxtLink>
       <nav class="flex items-center space-x-4 lg:space-x-6">
         <template v-if="user">

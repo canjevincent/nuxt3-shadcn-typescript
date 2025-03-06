@@ -55,5 +55,4 @@
       </CardContent>
     </Card>
   </div> 
-  <ProductModal></ProductModal>
 </template>
