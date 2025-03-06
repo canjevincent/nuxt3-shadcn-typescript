@@ -1,29 +1,20 @@
 <script setup lang="ts">
-  definePageMeta({
-      middleware: 'auth'
+
+  import type { SafeProduct } from '~/types'
+
+  const { data: products, status } = await useFetch<SafeProduct[]>(`/api/admin/products/`,{
+    lazy: true
   });
 
-  const { user, clear } = useUserSession();
-
-  const logout = async() => {
-    await clear();
-    navigateTo('/auth/login');
-  }
 </script>
 
 <template>
-  <div>
-    Home Page
+  <Hero />
+  <div class="py-16 mx-auto w-full max-w-5xl sm:py-32">
+    <div class="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+      <ProductList :items="products || []" title="Featured Products" :is-loading="status === 'pending'" />
+    </div>
   </div>
-  <pre>{{ user }}</pre>
-  <NuxtLink to="/auth/login">Login</NuxtLink>
-  <NuxtLink to="/auth/register">Register</NuxtLink>
-  <NuxtLink to="/admin">Admin</NuxtLink>
-  <NuxtLink to="/admin/categories">Categories</NuxtLink>
-  <NuxtLink to="/admin/colors">Colors</NuxtLink>
-  <NuxtLink to="/admin/sizes">Sizes</NuxtLink>
-  <NuxtLink to="/admin/products">Add Product</NuxtLink>
-  <button @click="logout">Logout</button>
 </template>
 
  
